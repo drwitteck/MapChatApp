@@ -1,108 +1,199 @@
 package com.example.derekwitteck.mapchatapp;
 
-import android.content.Context;
-import android.net.Uri;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MapFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MapFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    MapView mMapView;
+    GoogleMap mGoogleMap;
+    LocationListener ll;
+    LocationManager lm;
+    Location currentLocation;
+    LatLng latLng;
+    View mView;
 
     public MapFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MapFragment newInstance(String param1, String param2) {
-        MapFragment fragment = new MapFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        mView = inflater.inflate(R.layout.fragment_map, container, false);
+
+        mMapView = mView.findViewById(R.id.map);
+
+        mMapView.onCreate(savedInstanceState);
+        mMapView.getMapAsync(this);
+
+//        MarkerOptions marker = new MarkerOptions().position(latLng).title("My Location");
+//        mGoogleMap.addMarker(marker);
+
+//        ll = new LocationListener() {
+//            @Override
+//            public void onLocationChanged(Location location) {
+//                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+//                mGoogleMap.animateCamera(cu);
+//
+//                currentLocation = location;
+//            }
+//
+//            @Override
+//            public void onStatusChanged(String s, int i, Bundle bundle) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderEnabled(String s) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderDisabled(String s) {
+//
+//            }
+//        };
+
+        return mView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        mMapView = mView.findViewById(R.id.map);
+//        if(mMapView != null) {
+//            mMapView.onCreate(null);
+//            mMapView.onResume();
+//            mMapView.getMapAsync(this);
+//        }
+//    }
+
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        MapsInitializer.initialize(getContext());
+//
+//        mGoogleMap = googleMap;
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//
+//        MarkerOptions marker = new MarkerOptions().position(latLng).title("My Location");
+//        mGoogleMap.addMarker(marker);
+//
+//        ll = new LocationListener() {
+//            @Override
+//            public void onLocationChanged(Location location) {
+//                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+//                mGoogleMap.animateCamera(cu);
+//
+//                currentLocation = location;
+//            }
+//
+//            @Override
+//            public void onStatusChanged(String s, int i, Bundle bundle) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderEnabled(String s) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderDisabled(String s) {
+//
+//            }
+//        };
+//    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mMapView.onStart();
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onResume(){
+        super.onResume();
+        mMapView.onResume();
+//        if(getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+//                PackageManager.PERMISSION_GRANTED){
+//            requestUpdates();
+//        }else{
+//            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
+//        }
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onPause(){
+        super.onPause();
+        mMapView.onPause();
+        //lm.removeUpdates(ll);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onStop() {
+        super.onStop();
+        mMapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
+    }
+
+//    @SuppressWarnings("MissingPermission")
+//    private void requestUpdates(){
+//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+//        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,ll);
+//        lm.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER,0,0,ll);
+//    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//            requestUpdates();
+//        }else{
+//            Toast.makeText(getActivity(), "Not granted.", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.mGoogleMap = googleMap;
     }
 }
