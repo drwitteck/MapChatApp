@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.example.derekwitteck.mapchatapp.Fragments.MapFragment;
+import com.example.derekwitteck.mapchatapp.Fragments.PartnersFragment;
 
 
 public class MainActivity extends AppCompatActivity {

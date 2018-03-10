@@ -1,4 +1,4 @@
-package com.example.derekwitteck.mapchatapp;
+package com.example.derekwitteck.mapchatapp.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.derekwitteck.mapchatapp.R;
+import com.example.derekwitteck.mapchatapp.RequestQueueSingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;

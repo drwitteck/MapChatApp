@@ -1,4 +1,4 @@
-package com.example.derekwitteck.mapchatapp;
+package com.example.derekwitteck.mapchatapp.Fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.derekwitteck.mapchatapp.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
