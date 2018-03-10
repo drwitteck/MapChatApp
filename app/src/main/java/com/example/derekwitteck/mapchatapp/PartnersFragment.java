@@ -63,7 +63,6 @@ public class PartnersFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         // Do something with response
-                        //results.setText(response.toString());
                         Log.e("RESPONSE", response.toString());
 
                         // Process the JSON
@@ -91,6 +90,7 @@ public class PartnersFragment extends Fragment {
                                 data += "Username: " + username + "\n\n";
                                 data += "Latitude: " + latitude + "\n\n";
                                 data += "Longitude: " + longitude + "\n\n";
+                                data += "" + "\n\n";
 
                             }
 
