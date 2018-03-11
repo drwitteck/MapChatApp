@@ -1,30 +1,35 @@
 package com.example.derekwitteck.mapchatapp.Fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.derekwitteck.mapchatapp.R;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    MapView mMapView;
+    protected MapView mMapView;
     GoogleMap mGoogleMap;
     LocationListener ll;
     LocationManager lm;
@@ -44,116 +49,81 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mMapView = mView.findViewById(R.id.map);
+        mMapView = view.findViewById(R.id.map);
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
 
-//        MarkerOptions marker = new MarkerOptions().position(latLng).title("My Location");
-//        mGoogleMap.addMarker(marker);
+        ll = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+                mGoogleMap.animateCamera(cu);
 
-//        ll = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 16);
-//                mGoogleMap.animateCamera(cu);
-//
-//                currentLocation = location;
-//            }
-//
-//            @Override
-//            public void onStatusChanged(String s, int i, Bundle bundle) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String s) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String s) {
-//
-//            }
-//        };
+                currentLocation = location;
 
-        return mView;
+                MarkerOptions marker = new MarkerOptions().position(latLng).title("My Location");
+                mGoogleMap.addMarker(marker);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        return view;
     }
 
-//    @Override
-//    public void onViewCreated(View view, Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        mMapView = mView.findViewById(R.id.map);
-//        if(mMapView != null) {
-//            mMapView.onCreate(null);
-//            mMapView.onResume();
-//            mMapView.getMapAsync(this);
-//        }
-//    }
-
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        MapsInitializer.initialize(getContext());
-//
-//        mGoogleMap = googleMap;
-//        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//
-//        MarkerOptions marker = new MarkerOptions().position(latLng).title("My Location");
-//        mGoogleMap.addMarker(marker);
-//
-//        ll = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 16);
-//                mGoogleMap.animateCamera(cu);
-//
-//                currentLocation = location;
-//            }
-//
-//            @Override
-//            public void onStatusChanged(String s, int i, Bundle bundle) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String s) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String s) {
-//
-//            }
-//        };
-//    }
+    @SuppressWarnings("MissingPermission")
+    public void requestUpdates() {
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
+        lm.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, ll);
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-        mMapView.onStart();
+        if (mMapView != null) {
+            mMapView.onStart();
+        }
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        mMapView.onResume();
-//        if(getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
-//                PackageManager.PERMISSION_GRANTED){
-//            requestUpdates();
-//        }else{
-//            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
-//        }
+        if (mMapView != null) {
+            mMapView.onResume();
+        }
+        if(getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED){
+            requestUpdates();
+        }else{
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
+        }
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        mMapView.onPause();
+        if (mMapView != null) {
+            mMapView.onPause();
+        }
         //lm.removeUpdates(ll);
     }
 
@@ -165,33 +135,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroy() {
+        if (mMapView != null) {
+            try {
+                mMapView.onDestroy();
+            } catch (NullPointerException e) {
+                Log.e("ERROR", "Error");
+            }
+        }
         super.onDestroy();
-        mMapView.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mMapView.onSaveInstanceState(outState);
+        if (mMapView != null) {
+            mMapView.onSaveInstanceState(outState);
+        }
     }
-
-//    @SuppressWarnings("MissingPermission")
-//    private void requestUpdates(){
-//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-//        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,ll);
-//        lm.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER,0,0,ll);
-//    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//            requestUpdates();
-//        }else{
-//            Toast.makeText(getActivity(), "Not granted.", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
