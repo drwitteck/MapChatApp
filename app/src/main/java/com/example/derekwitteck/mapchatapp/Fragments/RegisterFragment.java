@@ -91,32 +91,36 @@ public class RegisterFragment extends Fragment {
                 if (TextUtils.isEmpty(mEditText.getText().toString())){
                     mEditText.setError("Please enter a username");
                 }
+
+                requestQueue = RequestQueueSingleton.getInstance(getActivity())
+                        .getRequestQueue();
+
+                Map<String, String> params = new HashMap<>();
+                params.put("Username", username);
+                params.put("Latitude", "123");
+                params.put("Longitude", "456");
+
+                JsonObjectRequest postRequest = new JsonObjectRequest(mJsonURL, new JSONObject(params),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                VolleyLog.v("Response", response);
+                            }
+
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                VolleyLog.v("Error.Response", error.getMessage());
+                            }
+                        }
+                );
+
+                requestQueue.add(postRequest);
             }
         });
 
-        requestQueue = RequestQueueSingleton.getInstance(getActivity())
-                .getRequestQueue();
-
-        Map<String, String> params = new HashMap<>();
-        params.put("Username", username);
-        params.put("Latitude", "123");
-        params.put("Longitude", "456");
-
-        JsonObjectRequest postRequest = new JsonObjectRequest(mJsonURL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        VolleyLog.v("Response", response);
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.v("Error.Response", error.getMessage());
-                    }
-                }
-        ){
+        //{};
 //            @Override
 //            protected Map<String, String> getParams(){
 //                Map<String, String> params = new HashMap<>();
@@ -126,9 +130,9 @@ public class RegisterFragment extends Fragment {
 //
 //                return params;
 //            }
-        };
+//        };
 
-        requestQueue.add(postRequest);
+        //requestQueue.add(postRequest);
 
         return v;
     }
