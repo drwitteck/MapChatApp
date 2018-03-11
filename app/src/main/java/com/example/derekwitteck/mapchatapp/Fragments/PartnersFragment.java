@@ -16,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.derekwitteck.mapchatapp.R;
 import com.example.derekwitteck.mapchatapp.RequestQueueSingleton;
-import com.example.derekwitteck.mapchatapp.PartnerData;
+import com.example.derekwitteck.mapchatapp.Partner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +29,7 @@ public class PartnersFragment extends Fragment {
     private String mJsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
     private RequestQueue requestQueue;
-    private PartnerData partnerData;
+    private Partner partner;
 
     public PartnersFragment() {
         // Required empty public constructor

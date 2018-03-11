@@ -2,7 +2,6 @@ package com.example.derekwitteck.mapchatapp;
 
 import android.content.Context;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
@@ -16,7 +15,7 @@ public class RequestQueueSingleton {
         requestQueue = getRequestQueue();
     }
 
-    public static synchronized RequestQueueSingleton getInstance(Context context){
+    public static synchronized RequestQueueSingleton getInstance(GetPartners context){
         if(requestQueueSingleton == null){
             requestQueueSingleton = new RequestQueueSingleton(context);
         }
