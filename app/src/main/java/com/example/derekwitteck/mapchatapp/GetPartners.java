@@ -1,7 +1,7 @@
 package com.example.derekwitteck.mapchatapp;
 
+import android.content.Context;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -15,26 +15,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by derekwitteck on 3/11/18.
- */
-
 public class GetPartners implements IGetPartners {
 
-    private TextView results;
-    private String mJsonURL = "https://kamorris.com/lab/get_locations.php";
-    private String data = "";
-    private RequestQueue requestQueue;
-    private Partner partner;
+    Context context;
 
     @Override
     public List<Partner> getPartners() {
         final List<Partner> allPartners = new ArrayList<>();
 
-        requestQueue = RequestQueueSingleton.getInstance(this)
+        RequestQueue requestQueue = RequestQueueSingleton.getInstance(context)
                 .getRequestQueue();
 
         // Initialize a new JsonObjectRequest instance
+        String mJsonURL = "https://kamorris.com/lab/get_locations.php";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 mJsonURL,
                 new Response.Listener<JSONArray>() {
