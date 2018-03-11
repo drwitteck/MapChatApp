@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.derekwitteck.mapchatapp.Fragments.MapFragment;
 import com.example.derekwitteck.mapchatapp.Fragments.PartnersFragment;
+import com.example.derekwitteck.mapchatapp.Fragments.RegisterFragment;
 
 import java.util.Map;
 
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout = findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-
     }
 
     @Override
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new RegisterFragment(), "Register");
         adapter.addFragment(new MapFragment(), "Map");
         adapter.addFragment(new PartnersFragment(), "Partners");
         viewPager.setAdapter(adapter);

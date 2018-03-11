@@ -7,22 +7,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.derekwitteck.mapchatapp.R;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -63,12 +58,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 16);
                 mGoogleMap.animateCamera(cu);
-
                 currentLocation = location;
 
                 MarkerOptions marker = new MarkerOptions().position(latLng).title("My Location");
                 mGoogleMap.addMarker(marker);
             }
+
+
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {

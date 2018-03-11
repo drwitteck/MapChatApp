@@ -31,7 +31,6 @@ public class PartnersFragment extends Fragment {
     private String mJsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
     private RequestQueue requestQueue;
-    static final String REQ_TAG = "MyTag";
 
     public PartnersFragment() {
         // Required empty public constructor
