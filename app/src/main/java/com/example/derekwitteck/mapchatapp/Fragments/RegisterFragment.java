@@ -33,13 +33,12 @@ import java.util.Map;
 public class RegisterFragment extends Fragment {
     private EditText mEditText;
     private Button mSendButton;
-    private String username;
+    private String username, latitudeString, longitudeString;
     private String mJsonURL = "https://kamorris.com/lab/register_location.php";
     RequestQueue requestQueue;
     LocationManager lm;
     LocationListener ll;
-    LatLng latLng;
-    Location currentLocation;
+
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -56,31 +55,6 @@ public class RegisterFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_register, container, false);
 
-        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        ll = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                //CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 16);
-                currentLocation = location;
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-
         mEditText = v.findViewById(R.id.editTextUsername);
         username = mEditText.getText().toString();
 
@@ -92,15 +66,41 @@ public class RegisterFragment extends Fragment {
                     mEditText.setError("Please enter a username");
                 }
 
+
+
+                lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                ll = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        latitudeString = String.valueOf(location.getLatitude());
+                        longitudeString = String.valueOf(location.getLongitude());
+                    }
+
+                    @Override
+                    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String s) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String s) {
+
+                    }
+                };
+
                 requestQueue = RequestQueueSingleton.getInstance(getActivity())
                         .getRequestQueue();
 
-                Map<String, String> params = new HashMap<>();
-                params.put("Username", username);
-                params.put("Latitude", "123");
-                params.put("Longitude", "456");
+//                Map<String, String> params = new HashMap<>();
+//                params.put("Username", username);
+//                params.put("Latitude", latitudeString);
+//                params.put("Longitude", longitudeString);
 
-                JsonObjectRequest postRequest = new JsonObjectRequest(mJsonURL, new JSONObject(params),
+                JsonObjectRequest postRequest = new JsonObjectRequest(mJsonURL, new JSONObject(),
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -114,25 +114,20 @@ public class RegisterFragment extends Fragment {
                                 VolleyLog.v("Error.Response", error.getMessage());
                             }
                         }
-                );
+                ){
+                    protected Map<String, String> getParams(){
+                        Map<String, String> params = new HashMap<>();
+                        params.put("Username", username);
+                        params.put("Latitude", latitudeString);
+                        params.put("Longitude", longitudeString);
+
+                        return params;
+                    }
+                };
 
                 requestQueue.add(postRequest);
             }
         });
-
-        //{};
-//            @Override
-//            protected Map<String, String> getParams(){
-//                Map<String, String> params = new HashMap<>();
-//                params.put("Username", username);
-//                params.put("Latitude", "123");
-//                params.put("Longitude", "456");
-//
-//                return params;
-//            }
-//        };
-
-        //requestQueue.add(postRequest);
 
         return v;
     }

@@ -3,7 +3,6 @@ package com.example.derekwitteck.mapchatapp.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +16,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.derekwitteck.mapchatapp.R;
 import com.example.derekwitteck.mapchatapp.RequestQueueSingleton;
+import com.example.derekwitteck.mapchatapp.PartnerData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static com.example.derekwitteck.mapchatapp.RequestQueueSingleton.getInstance;
 
 public class PartnersFragment extends Fragment {
     private Context mContext;
@@ -31,6 +29,7 @@ public class PartnersFragment extends Fragment {
     private String mJsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
     private RequestQueue requestQueue;
+    private PartnerData partnerData;
 
     public PartnersFragment() {
         // Required empty public constructor

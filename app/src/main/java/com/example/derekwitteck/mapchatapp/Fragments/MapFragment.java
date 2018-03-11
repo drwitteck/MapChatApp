@@ -46,6 +46,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+//        currentLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        double latitude = currentLocation.getLatitude();
+//        double longitude = currentLocation.getLongitude();
+
         mMapView = view.findViewById(R.id.map);
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -63,8 +67,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 MarkerOptions marker = new MarkerOptions().position(latLng).title("My Location");
                 mGoogleMap.addMarker(marker);
             }
-
-
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
