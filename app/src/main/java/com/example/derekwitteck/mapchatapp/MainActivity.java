@@ -14,6 +14,8 @@ import com.example.derekwitteck.mapchatapp.Fragments.MapFragment;
 import com.example.derekwitteck.mapchatapp.Fragments.PartnersFragment;
 import com.example.derekwitteck.mapchatapp.Fragments.RegisterFragment;
 
+import retrofit.RestAdapter;
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;

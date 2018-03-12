@@ -83,11 +83,11 @@ public class PartnersFragment extends Fragment {
                                 String latitude = jsonObject.getString("latitude");
                                 String longitude = jsonObject.getString("longitude");
 
-                                partner.setUsername(username);
-                                partner.setLatitude(Double.valueOf(latitude));
-                                partner.setLongitude(Double.valueOf(longitude));
-
-                                partnerList.add(partner);
+//                                partner.setUsername(username);
+//                                partner.setLatitude(Double.valueOf(latitude));
+//                                partner.setLongitude(Double.valueOf(longitude));
+//
+//                                partnerList.add(partner);
 
                                 data += "Username: " + username + "\n\n";
                                 data += "Latitude: " + latitude + "\n\n";
