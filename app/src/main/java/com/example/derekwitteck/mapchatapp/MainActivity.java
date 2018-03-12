@@ -1,6 +1,5 @@
 package com.example.derekwitteck.mapchatapp;
 
-import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,9 +13,6 @@ import android.widget.Toast;
 import com.example.derekwitteck.mapchatapp.Fragments.MapFragment;
 import com.example.derekwitteck.mapchatapp.Fragments.PartnersFragment;
 import com.example.derekwitteck.mapchatapp.Fragments.RegisterFragment;
-
-import java.util.Map;
-
 
 public class MainActivity extends AppCompatActivity {
 

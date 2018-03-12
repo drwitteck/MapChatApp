@@ -1,7 +1,5 @@
 package com.example.derekwitteck.mapchatapp.Fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,20 +14,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.derekwitteck.mapchatapp.R;
 import com.example.derekwitteck.mapchatapp.RequestQueueSingleton;
-import com.example.derekwitteck.mapchatapp.PartnerData;
+import com.example.derekwitteck.mapchatapp.Partner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PartnersFragment extends Fragment {
-    private Context mContext;
-    private Activity mActivity;
     private TextView results;
     private String mJsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
     private RequestQueue requestQueue;
-    private PartnerData partnerData;
+    private Partner partner;
+    private List<Partner> partnerList = new ArrayList<>();
 
     public PartnersFragment() {
         // Required empty public constructor
@@ -83,15 +83,16 @@ public class PartnersFragment extends Fragment {
                                 String latitude = jsonObject.getString("latitude");
                                 String longitude = jsonObject.getString("longitude");
 
-                                //Display the formatted json data in text view
-//                                results.append(username + " " + latitude + " : " + longitude);
-//                                results.append("\n\n");
+                                partner.setUsername(username);
+                                partner.setLatitude(Double.valueOf(latitude));
+                                partner.setLongitude(Double.valueOf(longitude));
+
+                                partnerList.add(partner);
 
                                 data += "Username: " + username + "\n\n";
                                 data += "Latitude: " + latitude + "\n\n";
                                 data += "Longitude: " + longitude + "\n\n";
                                 data += "" + "\n\n";
-
                             }
 
                             results.setText(data);

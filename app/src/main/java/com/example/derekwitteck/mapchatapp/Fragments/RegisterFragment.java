@@ -65,8 +65,7 @@ public class RegisterFragment extends Fragment {
                 if (TextUtils.isEmpty(mEditText.getText().toString())){
                     mEditText.setError("Please enter a username");
                 }
-
-
+                Log.e("HELLO", "HELLO");
 
                 lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 ll = new LocationListener() {
@@ -87,13 +86,10 @@ public class RegisterFragment extends Fragment {
                     }
 
                     @Override
-                    public void onProviderDisabled(String s) {
-
-                    }
+                    public void onProviderDisabled(String s) {}
                 };
 
-                requestQueue = RequestQueueSingleton.getInstance(getActivity())
-                        .getRequestQueue();
+                requestQueue = RequestQueueSingleton.getInstance(getActivity()).getRequestQueue();
 
 //                Map<String, String> params = new HashMap<>();
 //                params.put("Username", username);
@@ -104,6 +100,7 @@ public class RegisterFragment extends Fragment {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                Log.e("RESPONSE", String.valueOf(response));
                                 VolleyLog.v("Response", response);
                             }
 
