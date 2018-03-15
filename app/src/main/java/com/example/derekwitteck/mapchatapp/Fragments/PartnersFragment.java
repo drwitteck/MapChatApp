@@ -28,8 +28,6 @@ public class PartnersFragment extends Fragment {
     private String mJsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
     private RequestQueue requestQueue;
-    private Partner partner;
-    private List<Partner> partnerList = new ArrayList<>();
 
     public PartnersFragment() {
         // Required empty public constructor
@@ -67,13 +65,6 @@ public class PartnersFragment extends Fragment {
 
                         // Process the JSON
                         try{
-//                            // Get the JSON array
-//                            JSONObject userObj = response.getJSONObject(0);
-//
-//                            //Retrieve array from JSON object
-//                            JSONArray userArray = userObj.getJSONArray("get_locations.php");
-
-                            // Loop through the array elements
                             for (int i = 0; i < response.length(); i++){
                                 // Get current json object
                                 JSONObject jsonObject = (JSONObject) response.get(i);
@@ -82,12 +73,6 @@ public class PartnersFragment extends Fragment {
                                 String username = jsonObject.getString("username");
                                 String latitude = jsonObject.getString("latitude");
                                 String longitude = jsonObject.getString("longitude");
-
-//                                partner.setUsername(username);
-//                                partner.setLatitude(Double.valueOf(latitude));
-//                                partner.setLongitude(Double.valueOf(longitude));
-//
-//                                partnerList.add(partner);
 
                                 data += "Username: " + username + "\n\n";
                                 data += "Latitude: " + latitude + "\n\n";

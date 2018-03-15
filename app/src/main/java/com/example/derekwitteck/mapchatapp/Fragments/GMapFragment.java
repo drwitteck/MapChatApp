@@ -22,7 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class GMapFragment extends Fragment implements OnMapReadyCallback {
 
     protected MapView mMapView;
     GoogleMap mGoogleMap;
@@ -32,7 +32,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     LatLng latLng;
     View mView;
 
-    public MapFragment() {
+    public GMapFragment() {
         // Required empty public constructor
     }
 
@@ -44,7 +44,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_gmap, container, false);
 
 //        currentLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 //        double latitude = currentLocation.getLatitude();
