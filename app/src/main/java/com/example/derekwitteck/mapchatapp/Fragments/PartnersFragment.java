@@ -1,6 +1,8 @@
 package com.example.derekwitteck.mapchatapp.Fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +27,10 @@ import java.util.List;
 
 public class PartnersFragment extends Fragment {
     private TextView results;
-    private String mJsonURL = "https://kamorris.com/lab/get_locations.php";
+    private String jsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
     private RequestQueue requestQueue;
+    private FloatingActionButton fab;
 
     public PartnersFragment() {
         // Required empty public constructor
@@ -44,6 +47,16 @@ public class PartnersFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Get widget reference from XML layout
         View v = inflater.inflate(R.layout.fragment_partners, container, false);
+
+        fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Add user", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
         results = v.findViewById(R.id.json_data);
 
         // Empty the TextView
@@ -55,7 +68,7 @@ public class PartnersFragment extends Fragment {
 
         // Initialize a new JsonObjectRequest instance
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                mJsonURL,
+                jsonURL,
                 new Response.Listener<JSONArray>() {
 
                     @Override

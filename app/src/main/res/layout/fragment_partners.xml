@@ -1,46 +1,38 @@
-<android.support.v4.widget.NestedScrollView
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_partners"
+    android:minHeight="600dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <LinearLayout
-        android:id="@+id/container"
-        android:minHeight="600dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:orientation="vertical">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
+            android:layout_height="match_parent" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/json_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment" />
-    </LinearLayout>
+    </ScrollView>
 
-</android.support.v4.widget.NestedScrollView>
-
-    <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--tools:contecom.example.derekwitteck.mapchatapp.Fragments.PartnersFragmentment">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/json_data"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/hello_blank_fragment" />-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_person_add_white_48dp" />
 
 
-    <!--</FrameLayout>-->
+</android.support.design.widget.CoordinatorLayout>
+
+
+
