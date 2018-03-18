@@ -1,5 +1,7 @@
 package com.example.derekwitteck.mapchatapp.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,21 +20,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.derekwitteck.mapchatapp.R;
 import com.example.derekwitteck.mapchatapp.RequestQueueSingleton;
-import com.example.derekwitteck.mapchatapp.Partner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PartnersFragment extends Fragment {
     private TextView results;
     private String jsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
     private RequestQueue requestQueue;
-    private FloatingActionButton fab;
+    private FloatingActionButton addPartnerFab;
 
     public PartnersFragment() {
         // Required empty public constructor
@@ -48,12 +48,11 @@ public class PartnersFragment extends Fragment {
         //Get widget reference from XML layout
         View v = inflater.inflate(R.layout.fragment_partners, container, false);
 
-        fab = v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        addPartnerFab = v.findViewById(R.id.fabAddPartner);
+        addPartnerFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Add user", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                addUser();
             }
         });
 
@@ -113,5 +112,43 @@ public class PartnersFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return v;
+    }
+
+    public void addUser(){
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+        EditText partnerInput = new EditText(getContext());
+        alertBuilder.setView(partnerInput);
+        String userName = partnerInput.getText().toString();
+        alertBuilder.setTitle("Add New Partner")
+                .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog = alertBuilder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
     }
 }
