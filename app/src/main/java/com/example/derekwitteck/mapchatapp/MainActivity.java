@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.derekwitteck.mapchatapp.Fragments.GMapFragment;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private LocationManager locationManager;
+    Partner partner;
 
     static final int REQUEST_LOCATION = 1;
 
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        partner = new Partner();
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         getLocation();
@@ -59,7 +63,16 @@ public class MainActivity extends AppCompatActivity {
 
             if (location != null){
                 double latitude = location.getLatitude();
+                partner.setLatitude(latitude);
+//                Log.e("Partner Lat: ", partner.getLatitude().toString());
+//                String lat = Double.toString(latitude);
+//                Log.e("LAT", lat);
+
                 double longitude = location.getLongitude();
+                partner.setLongitude(longitude);
+//                String lon = Double.toString(longitude);
+//                Log.e("LON", lon);
+
                 Toast.makeText(this, "Coordinates" + latitude + " " + longitude, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Could not retrieve location.", Toast.LENGTH_SHORT).show();

@@ -14,10 +14,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.example.derekwitteck.mapchatapp.Partner;
 import com.example.derekwitteck.mapchatapp.R;
 import com.example.derekwitteck.mapchatapp.RequestQueueSingleton;
 
@@ -25,12 +29,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PartnersFragment extends Fragment {
     private TextView results;
-    private String jsonURL = "https://kamorris.com/lab/get_locations.php";
     private String data = "";
+    String userName, lat, lon;
     private RequestQueue requestQueue;
-    private FloatingActionButton addPartnerFab;
+    Partner partner;
 
     public PartnersFragment() {
         // Required empty public constructor
@@ -48,7 +55,7 @@ public class PartnersFragment extends Fragment {
         //Get widget reference from XML layout
         View v = inflater.inflate(R.layout.fragment_partners, container, false);
 
-        addPartnerFab = v.findViewById(R.id.fabAddPartner);
+        FloatingActionButton addPartnerFab = v.findViewById(R.id.fabAddPartner);
         addPartnerFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,20 +68,25 @@ public class PartnersFragment extends Fragment {
         // Empty the TextView
         results.setText("");
 
+        getPartners();
+
+        // Inflate the layout for this fragment
+        return v;
+    }
+
+    public void getPartners(){
         // Initialize a new RequestQueueSingleton instance
         requestQueue = RequestQueueSingleton.getInstance(getActivity())
                 .getRequestQueue();
 
         // Initialize a new JsonObjectRequest instance
+        String jsonURL = "https://kamorris.com/lab/get_locations.php";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 jsonURL,
                 new Response.Listener<JSONArray>() {
 
                     @Override
                     public void onResponse(JSONArray response) {
-                        // Do something with response
-                        Log.e("RESPONSE", response.toString());
-
                         // Process the JSON
                         try{
                             for (int i = 0; i < response.length(); i++){
@@ -109,21 +121,20 @@ public class PartnersFragment extends Fragment {
 
         // Add JsonObjectRequest to the RequestQueue
         requestQueue.add(jsonArrayRequest);
-
-        // Inflate the layout for this fragment
-        return v;
     }
 
     public void addUser(){
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         EditText partnerInput = new EditText(getContext());
         alertBuilder.setView(partnerInput);
-        String userName = partnerInput.getText().toString();
+        userName = partnerInput.getText().toString();
+        partner.setUsername(userName);
+
         alertBuilder.setTitle("Add New Partner")
                 .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        postRequest();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -135,6 +146,36 @@ public class PartnersFragment extends Fragment {
 
         AlertDialog alertDialog = alertBuilder.create();
         alertDialog.show();
+    }
+
+    public void postRequest(){
+        String postURL = "https://kamorris.com/lab/register_location.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, postURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("POST Response", response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ERROR", error.toString());
+            }
+        }) {
+            //adding parameters to the request
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("Username", userName);
+                params.put("latitude", lat);
+                params.put("longitude", lon);
+
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     @Override

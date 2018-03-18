@@ -2,12 +2,12 @@ package com.example.derekwitteck.mapchatapp;
 
 public class Partner {
     private String username;
-    Double latitude, longitude;
+    private Double latitude, longitude;
 
-    public Partner(String username, Double latitude, Double longitude){
-        this.username = username;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public Partner(/*String username, double latitude, double longitude*/){
+//        this.username = username;
+//        this.latitude = latitude;
+//        this.longitude = longitude;
     }
 
     public String getUsername() {
