@@ -1,10 +1,11 @@
 package com.example.derekwitteck.mapchatapp.Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.example.derekwitteck.mapchatapp.Partner;
+import com.example.derekwitteck.mapchatapp.User;
 import com.example.derekwitteck.mapchatapp.R;
 import com.example.derekwitteck.mapchatapp.RequestQueueSingleton;
 
@@ -29,15 +30,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PartnersFragment extends Fragment {
     private TextView results;
     private String data = "";
-    String userName, lat, lon;
+    String userName;
+    Double latitude, longitude;
+    String stringLat, stringLong;
     private RequestQueue requestQueue;
-    Partner partner;
+    private static final String PARTNER_KEY = "partner_key";
+    private User user;
+    private PartnersInterface mPartnersInterface;
 
     public PartnersFragment() {
         // Required empty public constructor
@@ -55,6 +61,8 @@ public class PartnersFragment extends Fragment {
         //Get widget reference from XML layout
         View v = inflater.inflate(R.layout.fragment_partners, container, false);
 
+//        user = (User) getArguments().getSerializable(PARTNER_KEY);
+
         FloatingActionButton addPartnerFab = v.findViewById(R.id.fabAddPartner);
         addPartnerFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,14 +71,24 @@ public class PartnersFragment extends Fragment {
             }
         });
 
+        Location location = mPartnersInterface.getUsersLocation();
+        Toast.makeText(getContext(), location.toString(), Toast.LENGTH_LONG).show();
+
         results = v.findViewById(R.id.json_data);
+
+        latitude = mPartnersInterface.getUsersLocation().getLatitude();
+        longitude = mPartnersInterface.getUsersLocation().getLongitude();
+        stringLat = Double.toString(latitude);
+        stringLong = Double.toString(longitude);
+
+
+
 
         // Empty the TextView
         results.setText("");
 
         getPartners();
 
-        // Inflate the layout for this fragment
         return v;
     }
 
@@ -128,7 +146,6 @@ public class PartnersFragment extends Fragment {
         EditText partnerInput = new EditText(getContext());
         alertBuilder.setView(partnerInput);
         userName = partnerInput.getText().toString();
-        partner.setUsername(userName);
 
         alertBuilder.setTitle("Add New Partner")
                 .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -168,8 +185,8 @@ public class PartnersFragment extends Fragment {
                 Map<String, String> params = new HashMap<>();
 
                 params.put("Username", userName);
-                params.put("latitude", lat);
-                params.put("longitude", lon);
+                params.put("latitude", stringLat);
+                params.put("longitude", stringLong);
 
                 return params;
             }
@@ -191,5 +208,20 @@ public class PartnersFragment extends Fragment {
     @Override
     public void onStop(){
         super.onStop();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if(activity instanceof PartnersInterface) {
+            mPartnersInterface = (PartnersInterface) activity;
+        } else {
+            throw new RuntimeException("Not Implemented");
+        }
+    }
+
+    public interface PartnersInterface {
+        Location getUsersLocation();
     }
 }

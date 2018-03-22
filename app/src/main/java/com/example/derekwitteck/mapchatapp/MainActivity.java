@@ -1,8 +1,6 @@
 package com.example.derekwitteck.mapchatapp;
 
 import android.Manifest;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -13,19 +11,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.derekwitteck.mapchatapp.Fragments.GMapFragment;
 import com.example.derekwitteck.mapchatapp.Fragments.PartnersFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PartnersFragment.PartnersInterface {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private LocationManager locationManager;
-    Partner partner;
+    private Location mLocation;
+    User user;
 
     static final int REQUEST_LOCATION = 1;
 
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        partner = new Partner();
+        user = new User();
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         getLocation();
@@ -51,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void getLocation() {
+    private Location getLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -59,25 +56,24 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
         } else {
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if (location != null){
+            mLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+/*(
+            if (location != null) {
                 double latitude = location.getLatitude();
-                partner.setLatitude(latitude);
-//                Log.e("Partner Lat: ", partner.getLatitude().toString());
-//                String lat = Double.toString(latitude);
-//                Log.e("LAT", lat);
+                user.setLatitude(latitude);
 
                 double longitude = location.getLongitude();
-                partner.setLongitude(longitude);
-//                String lon = Double.toString(longitude);
-//                Log.e("LON", lon);
+                user.setLongitude(longitude);
 
                 Toast.makeText(this, "Coordinates" + latitude + " " + longitude, Toast.LENGTH_SHORT).show();
+
             } else {
                 Toast.makeText(this, "Could not retrieve location.", Toast.LENGTH_SHORT).show();
             }
         }
+        */
+        }
+        return mLocation;
     }
 
     @Override
@@ -102,5 +98,10 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public Location getUsersLocation() {
+        return mLocation;
     }
 }
