@@ -1,4 +1,4 @@
-package com.example.derekwitteck.mapchatapp;
+package edu.temple.derekwitteck.mapchatapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.example.derekwitteck.mapchatapp;
+package edu.temple.mapchat;
 
 public class User {
     private String username;

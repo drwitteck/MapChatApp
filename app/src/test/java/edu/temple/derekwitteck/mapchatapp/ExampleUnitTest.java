@@ -1,4 +1,4 @@
-package com.example.derekwitteck.mapchatapp;
+package edu.temple.derekwitteck.mapchatapp;
 
 import org.junit.Test;
 

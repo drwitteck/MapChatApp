@@ -5,7 +5,7 @@
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.derekwitteck.mapchatapp.MainActivity">
+    tools:context="com.temple.derekwitteck.mapchatapp.com.example.derekwitteck.mapchat.MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

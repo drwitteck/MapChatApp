@@ -1,4 +1,4 @@
-package com.example.derekwitteck.mapchatapp;
+package edu.temple.mapchat;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

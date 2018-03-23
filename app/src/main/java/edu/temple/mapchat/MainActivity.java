@@ -1,4 +1,4 @@
-package com.example.derekwitteck.mapchatapp;
+package edu.temple.mapchat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -12,8 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.example.derekwitteck.mapchatapp.Fragments.GMapFragment;
-import com.example.derekwitteck.mapchatapp.Fragments.PartnersFragment;
+import edu.temple.mapchat.Fragments.GMapFragment;
+import edu.temple.mapchat.Fragments.PartnersFragment;
 
 public class MainActivity extends AppCompatActivity implements PartnersFragment.PartnersInterface {
 
